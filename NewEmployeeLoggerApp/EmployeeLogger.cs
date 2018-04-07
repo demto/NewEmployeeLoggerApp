@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace NewEmployeeLoggerApp {
-    class EmployeeLogger {
+    public class EmployeeLogger {
 
-        private void LogNewEmployee(Employee employee){
+        private static void LogNewEmployee(Employee employee){
             string path = @"C:\MyStuff\AppLogs\NewEmployee.txt";
             using (StreamWriter sr = new StreamWriter(path, true)){
                 string log = $"{employee.Name} has been created at {DateTime.Now} with ID of {employee.EmployeeId}";
@@ -16,7 +16,7 @@ namespace NewEmployeeLoggerApp {
             }
         }
 
-        public void NewEmployeeAdded(object sender, EventArgs e){
+        public static void NewEmployeeAdded(object sender, NewEmployeeEventArg e){
             LogNewEmployee(e.Employee);
         }
     }

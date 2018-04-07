@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace NewEmployeeLoggerApp {
-    class Employee {
+    public class Employee {
 
         public int EmployeeId { get; set; }
         public string Name { get; set; }
@@ -14,14 +14,15 @@ namespace NewEmployeeLoggerApp {
 
         private static int employeeCounter = 0;
 
-        public event EventHandler<EventArgs> employeeCreated;
+        public static event EventHandler<NewEmployeeEventArg> EmployeeCreated;
 
         private Employee(string name, string email, string address) {
             EmployeeId = employeeCounter++;
             Name = name;
             Email = email;
             Address = address;
-            OnEmployeeCreated(Name, EmployeeId);
+
+            OnEmployeeCreated(this);
         }
 
         public static Employee CreateEmployee(string name, string email, string address){
@@ -29,8 +30,8 @@ namespace NewEmployeeLoggerApp {
             return employee;
         }
 
-        protected virtual void OnEmployeeCreated(string name, int id){
-            employeeCreated?.Invoke(this, new EventArgs());
+        protected virtual void OnEmployeeCreated(Employee employee){
+            EmployeeCreated?.Invoke(this, new NewEmployeeEventArg(employee));
         }
     }
 }
